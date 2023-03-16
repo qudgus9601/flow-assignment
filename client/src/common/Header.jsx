@@ -3,8 +3,8 @@ import Assignment from "../pages/assignment/Assignment";
 
 const Header = () => {
   return (
-    <nav class="fixed w-full h-20 bg-zinc-800 px-2 py-2.5 text-white">
-      <div class="h-full container flex flex-wrap justify-between items-center mx-auto">
+    <nav className="fixed w-full h-20 bg-zinc-800 px-2 py-2.5 text-white">
+      <div className="h-full container flex flex-wrap justify-between items-center mx-auto">
         <Link className="h-full" to="/">
           <img
             className="h-full"
