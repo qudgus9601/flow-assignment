@@ -1,9 +1,7 @@
 const Sequelize = require("sequelize");
+require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 
-process.env.NODE_ENV === "production"
-  ? require("dotenv").config({ path: ".env.production" })
-  : require("dotenv").config({ path: ".env.development" });
-
+let db = {};
 // DB 연결
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -13,7 +11,11 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: "postgres",
+    logging: false,
   }
 );
 
-module.exports = sequelize;
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+module.exports = db;

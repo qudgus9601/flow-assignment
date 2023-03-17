@@ -2,22 +2,16 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const router = require("./route/index");
-const sequelize = require("./utils/db");
+const { sequelize } = require("./utils/db");
 
 // 환경변수 설정
-process.env.NODE_ENV === "production"
-  ? require("dotenv").config({ path: ".env.production" })
-  : require("dotenv").config({ path: ".env.development" });
+require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 
-// DB
+// db 연동
 sequelize
   .sync({ force: true })
-  .then(() => {
-    console.log("DB Connected");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+  .then(() => {})
+  .catch(() => {});
 
 // 라우팅
 app.use("/api", router);
