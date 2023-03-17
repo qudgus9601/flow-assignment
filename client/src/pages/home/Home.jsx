@@ -11,7 +11,7 @@ const Home = () => {
           </div>
           <div className="mt-10">
             <p>Tailwind Css Very Nice</p>
-            <p>Made By An Byeong Hyeon</p>
+            <p>Made By Byeong Hyeon An</p>
             <p className="text-red-300">
               Flow : Admin SignIn {"->"} Assignment
             </p>
