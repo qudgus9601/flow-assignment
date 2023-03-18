@@ -15,9 +15,10 @@ const Format_Count = sequelize.define(
       onDelete: "CASCADE",
     },
     count: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true,
+      defaultValue: 0,
     },
   },
   {

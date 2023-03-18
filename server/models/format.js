@@ -9,12 +9,12 @@ const Format = sequelize.define(
       primaryKey: true,
     },
     deprecated: {
-      type: Sequelize.STRING,
+      type: Sequelize.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
     static: {
-      type: Sequelize.STRING,
+      type: Sequelize.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },

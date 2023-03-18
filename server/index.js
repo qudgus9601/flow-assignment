@@ -3,13 +3,14 @@ const app = express();
 const cors = require("cors");
 const router = require("./route/index");
 const { sequelize } = require("./utils/db");
+const Format = require("./models/format");
 
 // 환경변수 설정
 require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 
 // db 연동
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {})
   .catch(() => {});
 
@@ -17,6 +18,7 @@ sequelize
 app.use(express.json());
 
 // cors 설정
+console.log(process.env.CLIENT_URL);
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
