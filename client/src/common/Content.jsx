@@ -2,8 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import Setting from "../pages/admin/Setting";
 import Upload from "../pages/Upload/Upload";
 import Home from "../pages/home/Home";
-import Signin from "../pages/signin/signin";
-import Signup from "../pages/signup/signup";
+import Signin from "../pages/signin/Signin";
+import Signup from "../pages/signup/Signup";
 
 const Content = () => {
   return (

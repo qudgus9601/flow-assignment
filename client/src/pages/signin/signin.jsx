@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Signin = () => {
   const [user, setUser] = useState({});
-
+  const navigator = useNavigate();
   /**
    * @desc 입력 값을 반영합니다.
    * @param {Event} e
@@ -37,25 +37,28 @@ const Signin = () => {
         data: user,
         withCredentials: true,
       }).then((data) => {
-        console.log(data);
+        if (!!data.data?.userInfo) {
+          navigator("/");
+        } else {
+          window.alert("아이디 비밀번호를 확인해주세요.");
+        }
       });
     } else {
+      window.alert("아이디 비밀번호를 입력해주세요.");
     }
   };
 
-  useEffect(() => {
-    console.log(process.env.REACT_APP_SERVER_URL);
-  });
+  useEffect(() => {});
   return (
     <div className="h-full py-32 container mx-auto">
-      <div className="h-full w-full bg-white flex flex-wrap">
-        <div className="w-1/2 bg-zinc-800">
+      <div className="h-full w-1/2 bg-white flex flex-wrap mx-auto">
+        <div className="w-full bg-zinc-800">
           <div className="w-8/12 h-full flex flex-col mx-auto py-36 text-white">
             <p className="text-6xl font-bold mb-4 text-purple-400">Flowg-In</p>
             <p className="text-gray-200 mb-10">플로우~~~그인</p>
             <p className="mb-1">ID</p>
             <input
-              className="w-full h-14 rounded mb-10 text-black indent-4 font-bold"
+              className="w-full h-14 rounded mb-8 text-black indent-4 font-bold"
               type="text"
               onChange={inputChange}
               onKeyDown={isEnter}
@@ -64,7 +67,7 @@ const Signin = () => {
             ></input>
             <p className="mb-1">PASSWORD</p>
             <input
-              className="w-full h-14 rounded mb-10 text-black indent-4 font-bold"
+              className="w-full h-14 rounded mb-8 text-black indent-4 font-bold"
               type="password"
               onChange={inputChange}
               onKeyDown={isEnter}
@@ -72,7 +75,7 @@ const Signin = () => {
               id="password"
             ></input>
             <button
-              className="w-full h-14 rounded mb-10 text-white font-bold bg-zinc-700 text-lg hover:text-purple-400"
+              className="w-full h-14 rounded mb-7 text-white font-bold bg-zinc-700 text-lg hover:text-purple-400"
               onClick={submit}
             >
               로그인
@@ -85,7 +88,6 @@ const Signin = () => {
             </Link>
           </div>
         </div>
-        <div className="w-1/2 bg-blue-50"></div>
       </div>
     </div>
   );

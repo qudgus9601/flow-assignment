@@ -1,5 +1,6 @@
 import Header from "./common/Header";
 import Content from "./common/Content";
+import "./App.css";
 
 function App() {
   return (
