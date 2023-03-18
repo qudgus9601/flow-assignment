@@ -8,12 +8,12 @@ router.get("/", (req, res, next) => {
 });
 
 // 회웝가입
-router.post("/user/signup", userController.signup);
+router.post("/signup", userController.signup);
 
 // 로그인
-router.post("/user/signin", userController.signin);
+router.post("/signin", userController.signin);
 
 // 로그아웃
-router.get("/user/signout", userController.signout);
+router.get("/signout", userController.signout);
 
 module.exports = router;
