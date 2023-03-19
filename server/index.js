@@ -22,7 +22,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 // cors 설정
-console.log(process.env.CLIENT_URL);
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
@@ -41,6 +40,4 @@ app.use("/api", router);
 
 // 서버 오픈
 const port = process.env.SERVER_URL;
-app.listen(port, () => {
-  console.log(`📡 SERVER Listening On ${port}`);
-});
+app.listen(port, () => {});

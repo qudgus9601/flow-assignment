@@ -12,9 +12,7 @@ const existId = async (id) => {
   try {
     const findUser = await User.findOne({ where: { id: id }, raw: true });
     return findUser ? true : false;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 module.exports = {
@@ -83,9 +81,7 @@ module.exports = {
       } else {
         res.status(200).json({ message: "비밀번호를 틀렸습니다." });
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   },
   /**
    * @desc : 로그아웃을 진행합니다.
