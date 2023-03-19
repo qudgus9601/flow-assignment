@@ -1,5 +1,5 @@
 const Format = require("../models/format");
-const { sequelize } = require("../utils/db");
+const Format_Count = require("../models/format_count");
 
 // FIX : 포멧 추가할 때 있는 값인지 검증하고 넣기
 
@@ -18,6 +18,7 @@ module.exports = {
       });
     } catch (error) {}
   },
+
   /**
    * @desc 새로운 커스텀 포멧을 추가합니다.
    * @param {string} name 등록할 포멧 이름
@@ -31,6 +32,7 @@ module.exports = {
       });
     } catch (error) {}
   },
+
   /**
    * @desc 특정 커스텀 포멧을 삭제합니다.
    * @param {string} name 삭제할 포멧 이름
@@ -47,9 +49,10 @@ module.exports = {
         .json({ message: "포멧 삭제 성공", success: !!deletedFormat });
     } catch (error) {}
   },
+
   /**
    * @desc 포멧의 Deprecated 값을 업데이트 합니다.
-   * @param {*} req
+   * @param {boolean} deprecated 포멧의 현재 제한 여부
    */
   deprecate: async (req, res, next) => {
     try {
@@ -62,5 +65,41 @@ module.exports = {
         .json({ message: "포멧 제한 변경", success: !!updatedFormat });
     } catch (error) {}
   },
+
+  /**
+   * @desc 포멧의 제한에 막힌 횟수를 증가시킵니다.
+   */
+  incrementCount: async (req, res, next) => {
+    try {
+      const findFormat = await Format_Count.findOrCreate({
+        where: { format_name: req.body.format_name },
+        default: {
+          format_name: req.body.format_name,
+        },
+        raw: true,
+      });
+      const updatedFormat = await Format_Count.update(
+        {
+          count: findFormat[0].count + 1,
+        },
+        {
+          where: {
+            format_name: findFormat[0].format_name,
+          },
+        }
+      );
+      if (!!updatedFormat) {
+        res.status(200).json({
+          message: "포멧 카운팅 성공",
+          success: !!updatedFormat,
+        });
+      } else {
+        res.status(200).json({ message: "포멧 카운팅 실패" });
+      }
+    } catch (error) {
+      res.status(200).json({ message: "포멧 카운팅 실패" });
+    }
+  },
+
   // 시간 되면 커스텀 포멧을 정적 포멧으로 변경할 수 있는 기능 등록하자
 };

@@ -18,4 +18,7 @@ router.post("/remove", formatController.remove);
 
 // 특정 포멧을 제한합니다.
 router.post("/deprecate", formatController.deprecate);
+
+// 특정 포멧의 제한 횟수를 증가시킵니다.
+router.post("/increment", formatController.incrementCount);
 module.exports = router;

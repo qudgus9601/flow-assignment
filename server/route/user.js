@@ -16,4 +16,7 @@ router.post("/signin", userController.signin);
 // 로그아웃
 router.get("/signout", userController.signout);
 
+// 토큰 검증
+router.get("/verifytoken", userController.verifyCookie);
+
 module.exports = router;

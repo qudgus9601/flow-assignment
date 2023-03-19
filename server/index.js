@@ -4,6 +4,7 @@ const cors = require("cors");
 const router = require("./route/index");
 const { sequelize } = require("./utils/db");
 const Format = require("./models/format");
+const cookieParser = require("cookie-parser");
 
 // 환경변수 설정
 require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
@@ -16,6 +17,9 @@ sequelize
 
 // body, params 값 parsing
 app.use(express.json());
+
+// cookie-parser
+app.use(cookieParser());
 
 // cors 설정
 console.log(process.env.CLIENT_URL);

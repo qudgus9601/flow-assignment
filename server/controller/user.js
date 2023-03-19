@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const encrypt = require("../utils/encrypt");
+const jwt = require("jsonwebtoken");
 
 /**
  * @desc 아이디의 존재 여부를 파악합니다.
@@ -60,8 +61,6 @@ module.exports = {
         raw: true,
       });
 
-      console.log(findUser);
-
       const alrightPassword = await encrypt.verifyPassword(
         req.body.password,
         findUser.password
@@ -69,7 +68,18 @@ module.exports = {
 
       if (alrightPassword) {
         const { password, ...rest } = findUser;
-        res.status(200).json({ message: "로그인 성공!!", userInfo: rest });
+        const token = jwt.sign({ ...rest }, process.env.JWT_SECRET, {
+          issuer: "flow.team.behoney",
+          expiresIn: "7d",
+        });
+        res
+          .status(200)
+          .cookie("AccessToken", token, {
+            httpOnly: true,
+            secure: false,
+            maxAge: 60 * 60 * 24 * 7 * 1000,
+          })
+          .json({ message: "로그인 성공!!", userInfo: rest });
       } else {
         res.status(200).json({ message: "비밀번호를 틀렸습니다." });
       }
@@ -82,5 +92,41 @@ module.exports = {
    */
   signout: (req, res, next) => {
     // 클라이언트의 쿠키를 삭제합니다.
+    try {
+      res
+        .status(200)
+        .clearCookie("AccessToken")
+        .json({ message: "로그아웃 완료", success: true });
+    } catch (error) {}
+  },
+
+  /**
+   * @desc : 쿠키를 검증합니다.
+   * @param {Cookie} AccessToken 액세스 토큰을 통하여 검증합니다.
+   */
+  verifyCookie: (req, res, next) => {
+    try {
+      if (!!req.cookies.AccessToken) {
+        jwt.verify(
+          req.cookies.AccessToken,
+          process.env.JWT_SECRET,
+          (err, result) => {
+            if (err) {
+              res
+                .status(200)
+                .json({ message: "만료된 토큰입니다." })
+                .clearCookie("AccessToken");
+            } else {
+              const { iat, exp, iss, ...rest } = result;
+              res
+                .status(200)
+                .json({ message: "토큰 검증 완료", userInfo: rest });
+            }
+          }
+        );
+      } else {
+        res.status(200).json({ message: "토큰이 존재하지 않습니다." });
+      }
+    } catch (error) {}
   },
 };
