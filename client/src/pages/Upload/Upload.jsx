@@ -1,20 +1,22 @@
 import axios from "axios";
 import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // FIX : 파일 전송하기
 const Upload = () => {
-  const [file, setFile] = useState({});
+  const [file, setFile] = useState(undefined);
   const [list, setList] = useState([]);
-  const [deprecate, setDeprecate] = useState("제한됨");
+  const [deprecate, setDeprecate] = useState(true);
   useEffect(() => {
-    const arr = list.filter((e) => {
-      return (
-        e.name === file?.name?.split(".")[file?.name?.split(".").length - 1]
-      );
-    });
-    setDeprecate(arr.length > 0 ? "제한됨" : "허용");
-  }, [file?.name, list]);
-
+    if (!!file) {
+      const arr = list.filter((e) => {
+        return (
+          e.name === file?.name?.split(".")[file?.name?.split(".").length - 1]
+        );
+      });
+      setDeprecate(arr.length === 0 ? false : arr[0].deprecated ? true : false);
+    }
+  }, [file, list]);
   useEffect(() => {
     axios({
       method: "GET",
@@ -22,16 +24,13 @@ const Upload = () => {
       withCredentials: true,
     })
       .then((data) => {
-        setList(
-          data.data.formatList.filter((e) => {
-            return e.deprecated === false;
-          })
-        );
+        setList(data.data.formatList);
       })
       .catch((err) => {});
   }, []);
 
   useEffect(() => {});
+  const navigator = useNavigate();
   const fileRef = useRef();
   /**
    *  @desc input file 열어줌
@@ -40,21 +39,50 @@ const Upload = () => {
     fileRef.current.click();
   };
 
+  /**
+   * @desc 파일 변화를 감지합니다.
+   * @param {Event} e
+   */
   const fileChange = (e) => {
     const blob = e.target.files[0];
     setFile(blob);
-    if (!!e.target.value) {
-      const imageData = new FormData();
-      const file = new File([blob], blob.name);
-      imageData.append("file", file);
+    if (deprecate) {
       axios({
         method: "POST",
+        url: `${process.env.REACT_APP_SERVER_URL}/api/format/increment`,
+        data: { format_name: blob?.name.split(".").pop() },
+      });
+    }
+  };
+
+  /**
+   * @desc 파일을 업로드 합니다.
+   */
+  const uploadFile = () => {
+    if (file) {
+      const fileData = new FormData();
+      const uploadedFile = new File([file], encodeURI(file?.name));
+      fileData.append("file", uploadedFile);
+      axios({
+        method: "POST",
+        url: `${process.env.REACT_APP_SERVER_URL}/api/upload/file`,
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        data: {},
-      });
+        data: fileData,
+      })
+        .then((data) => {
+          if (!!data.data.fileInfo) {
+            window.alert("파일 업로드 성공");
+            navigator("/");
+          } else {
+            window.alert("파일 업로드 실패!");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
@@ -78,19 +106,45 @@ const Upload = () => {
           onChange={fileChange}
         ></input>
         <div className="w-6/12 h-5/6">
-          <p className="text-3xl">파일명</p>
+          <p className="text-3xl font-extrabold text-zinc-900">File Upload</p>
+          <p className="text-xl mb-10 font-bold text-red-200">
+            파일의 크기 제한은 10 MB 입니다.
+          </p>
+          <p className="text-3xl font-bold">파일명</p>
           <p className="text-2xl mt-1 mb-10">{file?.name || "No Name"}</p>
-          <p className="text-3xl">확장자</p>
+          <p className="text-3xl font-bold">확장자</p>
           <p className="text-2xl mt-1 mb-10">
             {file?.name?.split(".")[file?.name?.split(".").length - 1] ||
               "No Format"}
           </p>
-          <p className="text-3xl">용량</p>
+          <p className="text-3xl font-bold">용량</p>
           <p className="text-2xl mt-1 mb-10">{file?.size || 0}</p>
-          <p className="text-3xl">제한 여부</p>
-          <p className="text-2xl mt-1 mb-10">{deprecate || "제한됨"}</p>
-          <button className="w-9/12 bg-zinc-800 h-10 mt-40 rounded font-bold">
-            파일 업로드
+          <p className="text-3xl font-bold">제한 여부</p>
+          <p
+            className={`text-2xl mt-1 mb-10 ${
+              deprecate || file?.size >= 10000000
+                ? "text-red-500"
+                : "text-green-500"
+            }`}
+          >
+            {deprecate
+              ? "파일 형식 제한"
+              : file?.size >= 10000000
+              ? "파일 용량 초과"
+              : "허용"}
+          </p>
+          <button
+            className={`w-9/12 bg-zinc-800 h-10 mt-10 rounded font-bold ${
+              deprecate || file?.size >= 10000000 ? "cursor-not-allowed" : ""
+            }`}
+            onClick={uploadFile}
+            disabled={deprecate || file?.size >= 10000000}
+          >
+            {deprecate
+              ? "파일 형식 제한"
+              : file?.size >= 10000000
+              ? "파일 용량 초과"
+              : "파일 업로드"}
           </button>
         </div>
       </div>

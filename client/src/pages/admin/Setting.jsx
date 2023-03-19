@@ -94,7 +94,6 @@ const Setting = () => {
    * @desc 포멧을 제한합니다
    */
   const deprecateToggle = (e, deprecated) => {
-    console.log(deprecated);
     axios({
       method: "POST",
       url: `${process.env.REACT_APP_SERVER_URL}/api/format/deprecate`,
@@ -207,7 +206,7 @@ const Setting = () => {
             .map((e, idx) => {
               return (
                 <div
-                  className="bg-gray-100 text-black cursor-pointer px-3 h-10 flex flex-row justify-center items-center rounded mr-4 hover:scale-105 my-3"
+                  className="bg-blue-500 text-black cursor-pointer px-3 h-10 flex flex-row justify-center items-center rounded mr-4 hover:scale-105 my-3"
                   key={idx}
                   id={e.name}
                   onClick={deleteFormat}

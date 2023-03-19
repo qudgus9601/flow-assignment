@@ -1,10 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../../redux/userSlice";
 
 const Signin = () => {
   const [user, setUser] = useState({});
   const navigator = useNavigate();
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.user);
+  useEffect(() => {
+    if (userInfo.isLogin) {
+      navigator("/");
+    }
+  }, [userInfo.isLogin, navigator]);
+
   /**
    * @desc 입력 값을 반영합니다.
    * @param {Event} e
@@ -38,7 +48,10 @@ const Signin = () => {
         withCredentials: true,
       }).then((data) => {
         if (!!data.data?.userInfo) {
-          navigator("/");
+          dispatch(
+            login({ _id: data.data.userInfo.id, role: data.data.userInfo.role })
+          );
+          window.location.replace("/");
         } else {
           window.alert("아이디 비밀번호를 확인해주세요.");
         }
