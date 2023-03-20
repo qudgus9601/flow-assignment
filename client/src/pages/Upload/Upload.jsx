@@ -2,10 +2,10 @@ import axios from "axios";
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-// FIX : 파일 전송하기
 const Upload = () => {
   const [file, setFile] = useState(undefined);
   const [list, setList] = useState([]);
+
   const [deprecate, setDeprecate] = useState(true);
   useEffect(() => {
     if (!!file) {

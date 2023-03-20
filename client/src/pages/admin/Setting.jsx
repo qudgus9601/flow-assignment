@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 const Setting = () => {
   const [list, setList] = useState([]);
   const [input, setInput] = useState("");
+  const [listLen, setListLen] = useState(0);
   const inputRef = useRef();
   useEffect(() => {
     getList();
@@ -27,13 +28,17 @@ const Setting = () => {
    */
   const isEnter = (e) => {
     if (e.key === "Enter") {
-      if (input.length === 0 || input.length > 20) {
-        inputRef.current.classList.add("border-2");
-        inputRef.current.classList.add("border-red-700");
+      if (listLen < 200) {
+        if (input.length === 0 || input.length > 20) {
+          inputRef.current.classList.add("border-2");
+          inputRef.current.classList.add("border-red-700");
+        } else {
+          inputRef.current.classList.remove("border-2");
+          inputRef.current.classList.remove("border-red-700");
+          addFormat();
+        }
       } else {
-        inputRef.current.classList.remove("border-2");
-        inputRef.current.classList.remove("border-red-700");
-        addFormat();
+        window.alert("커스텀 확장자는 최대 200개 까지 등록 가능합니다.");
       }
     }
   };
@@ -45,28 +50,32 @@ const Setting = () => {
       return e.name === input;
     }).length;
 
-    if (len !== 0) {
-      window.alert("이미 등록 되어 있는 포멧입니다.");
-    } else {
-      if (input.length > 0 && input.length <= 20) {
-        axios({
-          method: "POST",
-          url: `${process.env.REACT_APP_SERVER_URL}/api/format/add`,
-          data: { name: input },
-          withCredentials: true,
-        }).then((data) => {
-          inputRef.current.value = "";
-          inputRef.current.classList.remove("border-2");
-          inputRef.current.classList.remove("border-red-700");
-          setInput("");
-          if (!!data.data.formatInfo) {
-            getList();
-          }
-        });
+    if (listLen < 200) {
+      if (len !== 0) {
+        window.alert("이미 등록 되어 있는 포멧입니다.");
       } else {
-        inputRef.current.classList.add("border-2");
-        inputRef.current.classList.add("border-red-700");
+        if (input.length > 0 && input.length <= 20) {
+          axios({
+            method: "POST",
+            url: `${process.env.REACT_APP_SERVER_URL}/api/format/add`,
+            data: { name: input },
+            withCredentials: true,
+          }).then((data) => {
+            inputRef.current.value = "";
+            inputRef.current.classList.remove("border-2");
+            inputRef.current.classList.remove("border-red-700");
+            setInput("");
+            if (!!data.data.formatInfo) {
+              getList();
+            }
+          });
+        } else {
+          inputRef.current.classList.add("border-2");
+          inputRef.current.classList.add("border-red-700");
+        }
       }
+    } else {
+      window.alert("커스텀 확장자는 최대 200개 까지 등록 가능합니다.");
     }
   };
 
@@ -117,6 +126,7 @@ const Setting = () => {
     }).then((data) => {
       const formatList = data.data.formatList;
       setList(formatList);
+      setListLen(formatList.length);
     });
   };
 
