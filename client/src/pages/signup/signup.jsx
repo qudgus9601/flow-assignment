@@ -49,15 +49,15 @@ const Signup = () => {
   };
 
   return (
-    <div className="h-full py-32 container mx-auto">
+    <div className="h-full py-24 container mx-auto">
       <div className="h-full w-1/2 bg-white flex flex-wrap mx-auto">
         <div className="w-full bg-zinc-800">
-          <div className="w-8/12 h-full flex flex-col mx-auto py-36 text-white">
-            <p className="text-6xl font-bold mb-4 text-purple-400">Sign-up</p>
+          <div className="w-8/12 h-full flex flex-col mx-auto py-20 text-white">
+            <p className="text-5xl font-bold mb-4 text-purple-400">Sign-up</p>
             <p className="text-gray-200 mb-10">To Be A Flowian</p>
             <p className="mb-1">ID</p>
             <input
-              className="w-full h-14 rounded mb-10 text-black indent-4 font-bold"
+              className="w-full h-10 rounded mb-10 text-black indent-4 font-bold"
               type="text"
               onChange={inputChange}
               onKeyDown={isEnter}
@@ -66,7 +66,7 @@ const Signup = () => {
             ></input>
             <p className="mb-1">PASSWORD</p>
             <input
-              className="w-full h-14 rounded mb-10 text-black indent-4 font-bold"
+              className="w-full h-10 rounded mb-10 text-black indent-4 font-bold"
               type="password"
               onChange={inputChange}
               onKeyDown={isEnter}
@@ -74,7 +74,7 @@ const Signup = () => {
               id="password"
             ></input>
             <button
-              className="w-full h-14 rounded mb-10 text-white font-bold bg-zinc-700 text-lg hover:text-purple-400"
+              className="w-full h-10 rounded mb-10 text-white font-bold bg-zinc-700 text-lg hover:text-purple-400"
               onClick={submit}
             >
               회원가입 완료

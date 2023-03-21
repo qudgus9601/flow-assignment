@@ -4,7 +4,7 @@ import "./App.css";
 
 function App() {
   return (
-    <div className="App min-h-screen h-screen bg-zinc-700">
+    <div className="App min-h-screen bg-zinc-700">
       <Header />
       <Content />
     </div>
