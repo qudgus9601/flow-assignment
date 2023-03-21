@@ -1,5 +1,8 @@
 # 📚 FLOW ASSIGNMENT
 
+## 테스트 용 아이디
+Id : admin, pwd : 1234
+
 ### 📃 요구사항
 - [X] 고정 확장자 리스트 출력
 - [X] 고정 확장자를 check or uncheck 및 db 저장
