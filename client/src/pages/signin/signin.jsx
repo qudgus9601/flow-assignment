@@ -40,7 +40,7 @@ const Signin = () => {
    */
   const submit = () => {
     // user값이 제대로 들어가있나 확인
-    if (user.id && user.password) {
+    if (user.loginId && user.password) {
       axios({
         method: "POST",
         url: `${process.env.REACT_APP_SERVER_URL}/api/user/signin`,
@@ -49,7 +49,10 @@ const Signin = () => {
       }).then((data) => {
         if (!!data.data?.userInfo) {
           dispatch(
-            login({ _id: data.data.userInfo.id, role: data.data.userInfo.role })
+            login({
+              _id: data.data.userInfo.userId,
+              role: data.data.userInfo.role,
+            })
           );
           window.location.replace("/");
         } else {
@@ -75,8 +78,8 @@ const Signin = () => {
               type="text"
               onChange={inputChange}
               onKeyDown={isEnter}
-              value={user.id || ""}
-              id="id"
+              value={user.loginId || ""}
+              id="loginId"
             ></input>
             <p className="mb-1">PASSWORD</p>
             <input

@@ -30,7 +30,7 @@ const Signup = () => {
    */
   const submit = () => {
     // user값이 제대로 들어가있나 확인
-    if (user.id && user.password) {
+    if (user.loginId && user.password) {
       axios({
         method: "POST",
         url: `${process.env.REACT_APP_SERVER_URL}/api/user/signup`,
@@ -61,8 +61,8 @@ const Signup = () => {
               type="text"
               onChange={inputChange}
               onKeyDown={isEnter}
-              value={user.id || ""}
-              id="id"
+              value={user.loginId || ""}
+              id="loginId"
             ></input>
             <p className="mb-1">PASSWORD</p>
             <input

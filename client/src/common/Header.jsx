@@ -14,7 +14,6 @@ const Header = () => {
       url: `${process.env.REACT_APP_SERVER_URL}/api/user/verifytoken`,
       withCredentials: true,
     }).then((data) => {
-      console.log(data.data.userInfo);
       if (!!data.data.userInfo) {
         dispatch(login({ ...data.data.userInfo }));
         setUser({ ...data.data.userInfo, isLogin: true });
@@ -58,6 +57,9 @@ const Header = () => {
           )}
           <Link className="hover:text-purple-400" to="/upload">
             Upload
+          </Link>
+          <Link className="hover:text-purple-400" to="/chat">
+            Chat
           </Link>
 
           {user?.isLogin ? (
