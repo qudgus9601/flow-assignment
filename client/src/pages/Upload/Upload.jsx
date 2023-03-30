@@ -88,9 +88,9 @@ const Upload = () => {
 
   return (
     <div className="h-full mx-auto pt-40 flex-grow text-white">
-      <div className="h-screen mx-auto container flex justify-between">
+      <div className="h-full mx-auto container flex justify-between">
         <div
-          className="w-5/12 h-4/6 border-dotted border-white border-2 rounded-xl hover:bg-zinc-900 cursor-pointer flex items-center justify-center"
+          className="w-5/12 h-5/6 border-dotted border-white border-2 rounded-xl hover:bg-zinc-900 cursor-pointer flex items-center justify-center"
           onClick={browse}
         >
           <img

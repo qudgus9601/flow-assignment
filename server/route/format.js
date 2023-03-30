@@ -10,6 +10,12 @@ router.get("/", (req, res, next) => {
 // 모든 포멧 리스트를 가져옵니다.
 router.get("/list", formatController.list);
 
+router.get("/test", (req, res) => {
+  res.json({
+    message: process.env.CLIENT_URL,
+  });
+});
+
 // 특정 포멧을 추가합니다.
 router.post("/add", formatController.add);
 

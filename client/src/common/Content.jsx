@@ -4,7 +4,7 @@ import Upload from "../pages/Upload/Upload";
 import Home from "../pages/home/Home";
 import Signin from "../pages/signin/Signin";
 import Signup from "../pages/signup/Signup";
-import Chat from "../pages/chat/Chat";
+// import Chat from "../pages/chat/Chat";
 
 const Content = () => {
   return (
@@ -14,7 +14,7 @@ const Content = () => {
       <Route path="/setting" element={<Setting />} />
       <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/chat" element={<Chat />} />
+      {/* <Route path="/chat" element={<Chat />} /> */}
     </Routes>
   );
 };

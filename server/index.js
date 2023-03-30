@@ -10,13 +10,12 @@ require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 
 // db 연동
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {})
   .catch(() => {});
 
 // body, params 값 parsing
 app.use(express.json());
-
 // cookie-parser
 app.use(cookieParser());
 

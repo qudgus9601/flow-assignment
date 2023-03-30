@@ -58,9 +58,9 @@ const Header = () => {
           <Link className="hover:text-purple-400" to="/upload">
             Upload
           </Link>
-          <Link className="hover:text-purple-400" to="/chat">
+          {/* <Link className="hover:text-purple-400" to="/chat">
             Chat
-          </Link>
+          </Link> */}
 
           {user?.isLogin ? (
             <button
