@@ -28,13 +28,13 @@ module.exports = {
     try {
       const user = { ...req.body };
       // 존재여부 확인 후 진행
-      const isExist = await existId(user.id);
+      const isExist = await existId(user.loginId);
       if (isExist) {
         res.status(200).json({ message: "이미 존재하는 아이디입니다." });
       } else {
         const hashedPassword = await encrypt.hashingPassword(user.password);
         const newUser = await User.create({
-          id: user.id,
+          loginId: user.loginId,
           password: hashedPassword,
         });
         if (newUser) {
@@ -55,7 +55,7 @@ module.exports = {
         ...req.body,
       };
       const findUser = await User.findOne({
-        where: { id: user.id },
+        where: { loginId: user.loginId },
         raw: true,
       });
 

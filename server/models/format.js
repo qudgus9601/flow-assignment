@@ -3,15 +3,19 @@ const { sequelize, Sequelize } = require("../utils/db");
 const Format = sequelize.define(
   "format",
   {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     name: {
       type: Sequelize.STRING,
       allowNull: false,
-      primaryKey: true,
     },
     deprecated: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: true,
     },
     static: {
       type: Sequelize.BOOLEAN,
@@ -21,6 +25,7 @@ const Format = sequelize.define(
   },
   {
     timestamps: false,
+    tableName: "format",
   }
 );
 

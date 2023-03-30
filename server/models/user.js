@@ -4,9 +4,13 @@ const User = sequelize.define(
   "user",
   {
     id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    loginId: {
       type: Sequelize.STRING,
       allowNull: false,
-      primaryKey: true,
     },
     password: {
       type: Sequelize.STRING,
@@ -20,6 +24,7 @@ const User = sequelize.define(
   },
   {
     timestamps: false,
+    tableName: "user",
   }
 );
 

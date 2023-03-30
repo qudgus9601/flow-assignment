@@ -25,11 +25,18 @@ module.exports = {
    */
   add: async (req, res, next) => {
     try {
-      const newFormat = await Format.create({ name: req.body.name });
-      res.status(200).json({
-        message: "포멧 등록 완료",
-        formatInfo: newFormat,
-      });
+      const newFormat = await Format.create({ name: req.body.name }).then(
+        (data) => {
+          Format_Count.create({
+            format_id: data.dataValues.id,
+          }).then((data) => {
+            res.status(200).json({
+              message: "포멧 등록 완료",
+              formatInfo: data.dataValues,
+            });
+          });
+        }
+      );
     } catch (error) {}
   },
 
@@ -71,23 +78,29 @@ module.exports = {
    */
   incrementCount: async (req, res, next) => {
     try {
-      const findFormat = await Format_Count.findOrCreate({
-        where: { format_name: req.body.format_name },
-        default: {
-          format_name: req.body.format_name,
-        },
+      const name = req.body.format_name;
+      const findFormat = await Format_Count.findOne({
+        include: [
+          {
+            model: Format,
+            attributes: [],
+            where: {
+              name: name,
+            },
+          },
+        ],
         raw: true,
       });
+
       const updatedFormat = await Format_Count.update(
         {
-          count: findFormat[0].count + 1,
+          count: findFormat.count + 1,
         },
         {
-          where: {
-            format_name: findFormat[0].format_name,
-          },
+          where: { id: findFormat.id },
         }
       );
+
       if (!!updatedFormat) {
         res.status(200).json({
           message: "포멧 카운팅 성공",

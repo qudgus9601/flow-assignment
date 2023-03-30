@@ -3,7 +3,6 @@ const app = express();
 const cors = require("cors");
 const router = require("./route/index");
 const { sequelize } = require("./utils/db");
-const Format = require("./models/format");
 const cookieParser = require("cookie-parser");
 
 // 환경변수 설정
@@ -11,7 +10,7 @@ require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 
 // db 연동
 sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {})
   .catch(() => {});
 
