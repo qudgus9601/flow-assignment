@@ -88,9 +88,9 @@ const Upload = () => {
 
   return (
     <div className="h-full mx-auto pt-40 flex-grow text-white">
-      <div className="h-full mx-auto container flex justify-between">
+      <div className="h-screen mx-auto container flex justify-between">
         <div
-          className="w-5/12 h-5/6 border-dotted border-white border-2 rounded-xl hover:bg-zinc-900 cursor-pointer flex items-center justify-center"
+          className="w-5/12 h-4/6 border-dotted border-white border-2 rounded-xl hover:bg-zinc-900 cursor-pointer flex items-center justify-center"
           onClick={browse}
         >
           <img
@@ -105,23 +105,23 @@ const Upload = () => {
           ref={fileRef}
           onChange={fileChange}
         ></input>
-        <div className="w-6/12 h-5/6">
+        <div className="w-6/12 h-4/6">
           <p className="text-3xl font-extrabold text-zinc-900">File Upload</p>
           <p className="text-xl mb-10 font-bold text-red-200">
             파일의 크기 제한은 10 MB 입니다.
           </p>
-          <p className="text-3xl font-bold">파일명</p>
-          <p className="text-2xl mt-1 mb-10">{file?.name || "No Name"}</p>
-          <p className="text-3xl font-bold">확장자</p>
-          <p className="text-2xl mt-1 mb-10">
+          <p className="text-2xl font-bold">파일명</p>
+          <p className="text-1xl mt-1 mb-6">{file?.name || "No Name"}</p>
+          <p className="text-2xl font-bold">확장자</p>
+          <p className="text-1xl mt-1 mb-6">
             {file?.name?.split(".")[file?.name?.split(".").length - 1] ||
               "No Format"}
           </p>
-          <p className="text-3xl font-bold">용량</p>
-          <p className="text-2xl mt-1 mb-10">{file?.size || 0}</p>
-          <p className="text-3xl font-bold">제한 여부</p>
+          <p className="text-2xl font-bold">용량</p>
+          <p className="text-1xl mt-1 mb-6">{file?.size || 0}</p>
+          <p className="text-2xl font-bold">제한 여부</p>
           <p
-            className={`text-2xl mt-1 mb-10 ${
+            className={`text-1xl mt-1 mb-6 ${
               deprecate || file?.size >= 10000000
                 ? "text-red-500"
                 : "text-green-500"
@@ -134,7 +134,7 @@ const Upload = () => {
               : "허용"}
           </p>
           <button
-            className={`w-9/12 bg-zinc-800 h-10 mt-10 rounded font-bold ${
+            className={`w-9/12 bg-zinc-800 h-10 mt-4 rounded font-bold ${
               deprecate || file?.size >= 10000000 ? "cursor-not-allowed" : ""
             }`}
             onClick={uploadFile}

@@ -2,10 +2,10 @@ import "./home.css";
 
 const Home = () => {
   return (
-    <div className="h-full mx-auto pt-20 flex-grow text-white">
+    <div className="h-screen mx-auto pt-20 flex-grow text-white">
       <div className="m-full h-full mx-auto container">
         <div className="m-full h-full flex flex-wrap justify-center flex-col">
-          <div className="font-extrabold text-9xl">
+          <div className="font-extrabold text-6xl">
             <p className="flowteam">flow.team</p>
             <p>Developer Assignment</p>
           </div>
